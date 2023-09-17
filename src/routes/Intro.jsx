@@ -2,6 +2,10 @@ import { styled } from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
+
+import { useRecoilState } from "recoil";
+import { isLoggedInState } from "../atoms";
+
 // 컴포넌트
 const Page = styled.div`
   height: 200vh;
@@ -179,6 +183,8 @@ const Title = styled.h1`
 `;
 
 function Intro() {
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+
   return (
     <Page>
       <Container>
@@ -194,8 +200,7 @@ function Intro() {
           <span>Make music cover with your Voice</span>
           <h2>Welcome to the AI Music Generation</h2>
           <ToHome>
-            {/* <a href="/home">Ai 커버 생성하기</a> */}
-            <Link to={"/home"}>Ai 커버 생성하기</Link>
+            <Link to={isLoggedIn ? "/home" : "/login"}>Ai 커버 생성하기</Link>
           </ToHome>
         </Box1>
         <Slider>

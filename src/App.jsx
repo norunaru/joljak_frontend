@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
+import { RecoilRoot } from "recoil";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Merienda&family=Open+Sans:wght@300;400;500&family=Roboto+Mono:wght@100;300;400;500&display=swap');
@@ -34,6 +35,7 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
   font-family: 'Open Sans', sans-serif;
+  color: white;
   background-color: ${(props) => props.theme.bgColor};
 }
 // ?
@@ -64,8 +66,10 @@ table {
 function App() {
   return (
     <>
-      <GlobalStyle />
-      <Router />
+      <RecoilRoot>
+        <GlobalStyle />
+        <Router />
+      </RecoilRoot>
     </>
   );
 }
