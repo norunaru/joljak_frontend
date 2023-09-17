@@ -191,7 +191,7 @@ function Intro() {
         <Header>
           <Title>
             🎙️ Intro Page{" "}
-            <a href="https://github.com/poramfe">
+            <a href="https://github.com/poramfe" target="_blank">
               <FaGithub />
             </a>
           </Title>
