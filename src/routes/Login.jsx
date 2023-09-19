@@ -70,6 +70,7 @@ const LoginForm = styled.form`
     background-color: #9b75f3;
     color: white;
     border-radius: 5px;
+    margin-bottom: 10px;
   }
 `;
 
@@ -79,7 +80,7 @@ const Input = styled.input`
   font-size: 18px;
   margin-bottom: 25px;
   border-bottom: 2px solid rgba(0, 0, 0, 0.2);
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.6);
   transition: border-color 0.3s ease-in-out;
 
   &:hover {
@@ -115,8 +116,8 @@ const Login = () => {
     try {
       //서버로 email, password보내고 서버에서 응답 객체가 오는데 그것을 response변수에 넣는다.
 
-      /*
-      서버 응답 성공적이라고 가정하기 위한 주석, 이후에 주석해제
+      //서버 응답 성공적이라고 가정하기 위한 주석, 이후에 주석해제
+      console.log(email, password);
       const response = await axios.post("http://your-backend-url/login", {
         email,
         password,
@@ -124,7 +125,7 @@ const Login = () => {
 
       const token = response.data.token;
       localStorage.setItem("token", token);
-      */
+
       // Recoil을 사용하여 isLoggedInState 값을 업데이트
       setIsLoggedIn(true);
       navigate("/");
@@ -157,8 +158,8 @@ const Login = () => {
           />
 
           <Input type="submit" value="Log In" />
-          {error && <p style={{ color: "red", marginLeft: "1rem" }}>{error}</p>}
           <Link to="/signup">Create Account</Link>
+          {error && <p style={{ color: "red", marginLeft: "1rem" }}>{error}</p>}
         </LoginForm>
         {/* <button onClick={handleLogin}>Login</button>
       {error && <p style={{ color: "red" }}>{error}</p>}{" "}
