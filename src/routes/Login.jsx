@@ -116,7 +116,6 @@ const Login = () => {
     try {
       //서버로 email, password보내고 서버에서 응답 객체가 오는데 그것을 response변수에 넣는다.
 
-      /*
       //서버 응답 성공적이라고 가정하기 위한 주석, 이후에 주석해제
       console.log(userEmail, userPassword);
       const response = await axios.post("http://your-backend-url/login", {
@@ -124,13 +123,18 @@ const Login = () => {
         userPassword,
       });
 
-      const token = response.data.token;
-      localStorage.setItem("token", token);
-       */
-
-      // Recoil을 사용하여 isLoggedInState 값을 업데이트
-      setIsLoggedIn(true);
-      navigate("/");
+      if (response.data.result) {
+        // 로그인 성공
+        console.log("로그인 성공");
+        const token = response.data.data.token;
+        localStorage.setItem("token", token);
+        // Recoil을 사용하여 isLoggedInState 값을 업데이트
+        setIsLoggedIn(true);
+        navigate("/");
+      } else {
+        // 로그인 실패
+        setError("이메일 또는 비밀번호가 올바르지 않습니다.");
+      }
     } catch (error) {
       // 로그인 실패 부분 -> axios.post에서 반환되는 에러가 catch블록에서 처리. setError함수로 메시지 출력.
       console.error("로그인 실패:", error);
