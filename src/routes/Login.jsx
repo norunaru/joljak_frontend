@@ -99,8 +99,8 @@ const Input = styled.input`
 const Login = () => {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [userEmail, setuserEmail] = useState("");
+  const [userPassword, setuserPassword] = useState("");
   const [error, setError] = useState(""); // 에러 메시지 상태 추가
 
   // isLoggedInState의 값을 업데이트하기 위한 Recoil hook
@@ -108,7 +108,7 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
+    if (!userEmail || !userPassword) {
       setError("Email and Password are required.");
       return; // Exit the function early if fields are empty
     }
@@ -116,15 +116,17 @@ const Login = () => {
     try {
       //서버로 email, password보내고 서버에서 응답 객체가 오는데 그것을 response변수에 넣는다.
 
+      /*
       //서버 응답 성공적이라고 가정하기 위한 주석, 이후에 주석해제
-      console.log(email, password);
+      console.log(userEmail, userPassword);
       const response = await axios.post("http://your-backend-url/login", {
-        email,
-        password,
+        userEmail,
+        userPassword,
       });
 
       const token = response.data.token;
       localStorage.setItem("token", token);
+       */
 
       // Recoil을 사용하여 isLoggedInState 값을 업데이트
       setIsLoggedIn(true);
@@ -147,14 +149,14 @@ const Login = () => {
           <Input
             type="text"
             placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={userEmail}
+            onChange={(e) => setuserEmail(e.target.value)}
           />
           <Input
             type="password"
             placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={userPassword}
+            onChange={(e) => setuserPassword(e.target.value)}
           />
 
           <Input type="submit" value="Log In" />

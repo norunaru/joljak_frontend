@@ -203,7 +203,7 @@ function Intro() {
             <Link to={isLoggedIn ? "/home" : "/login"}>Ai 커버 생성하기</Link>
           </ToHome>
         </Box1>
-        <Slider>
+        {/* <Slider>
           <AnimatePresence>
             <Row>
               <CoverSample
@@ -234,7 +234,7 @@ function Intro() {
               </CoverSample>
             </Row>
           </AnimatePresence>
-        </Slider>
+        </Slider> */}
         <Box2>
           <Explanation>How to create</Explanation>
           <HowToMake>

@@ -95,15 +95,27 @@ const Input = styled.input`
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordCheck, setPasswordCheck] = useState("");
-  const [nickname, setNickname] = useState("");
+  const [userEmail, setEmail] = useState("");
+  const [userPassword, setPassword] = useState("");
+  const [userPasswordCheck, setPasswordCheck] = useState("");
+  const [userNickname, setNickname] = useState("");
   const [error, setError] = useState("");
+
+  const isEmailValid = (userEmail) => {
+    // 이메일 형식을 검증하는 정규 표현식
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return emailRegex.test(userEmail);
+  };
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    if (password !== passwordCheck) {
+
+    if (!isEmailValid(userEmail)) {
+      setError("이메일 형식이 아닙니다.");
+      return;
+    }
+
+    if (userPassword !== userPasswordCheck) {
       setError("Password and PasswordCheck should be same.");
       return;
     }
@@ -112,8 +124,10 @@ const Signup = () => {
       /*  
       // 임시 코드, email과 password가 포함된 POST 요청을 백엔드로 보냄
       await axios.post("http://your-backend-url/signup", {
-        email,
-        password,
+        userEmail,
+        userPassword,
+        userPasswordCheck,
+        userNickname,
       });
 
       // 회원가입 성공 시 리다이렉트 또는 다른 작업 수행
@@ -136,25 +150,25 @@ const Signup = () => {
           <Input
             type="text"
             placeholder="Email"
-            value={email}
+            value={userEmail}
             onChange={(e) => setEmail(e.target.value)}
           />
           <Input
             type="password"
             placeholder="Password"
-            value={password}
+            value={userPassword}
             onChange={(e) => setPassword(e.target.value)}
           />
           <Input
-            type="passwordCheck"
+            type="password"
             placeholder="passwordCheck"
-            value={passwordCheck}
+            value={userPasswordCheck}
             onChange={(e) => setPasswordCheck(e.target.value)}
           />
           <Input
             type="nickname"
-            placeholder="nickname"
-            value={nickname}
+            placeholder="Nickname"
+            value={userNickname}
             onChange={(e) => setNickname(e.target.value)}
           />
           <Input type="submit" value="Sign up" />
