@@ -121,18 +121,37 @@ const Signup = () => {
     }
 
     try {
-      /*  
-      // 임시 코드, email과 password가 포함된 POST 요청을 백엔드로 보냄
-      await axios.post("http://your-backend-url/signup", {
-        userEmail,
-        userPassword,
-        userPasswordCheck,
-        userNickname,
-      });
+      //임시 코드, email과 password가 포함된 POST 요청을 백엔드로 보냄
 
-      // 회원가입 성공 시 리다이렉트 또는 다른 작업 수행
+      const response = await axios.post(
+        "http://localhost:4000/api/auth/signUp",
+        {
+          userEmail,
+          userPassword,
+          userPasswordCheck,
+          userNickname,
+        }
+      );
+
+      /*
+      //확인용 더미 코드
+      const response = {
+        result: false,
+        message: "이미 등록된 닉네임입니다!",
+        data: null,
+      };
+      
+       */
+      console.log(response.result);
+      //회원가입 실패시 handleSignup함수 탈출, 에러내용 변경
+      if (response.result === false) {
+        setError(response.message);
+        console.log("회원가입 실패 :", error);
+        return;
+      }
+
+      // 회원가입 성공 시 리다이렉트
       console.log("회원가입 성공");
-    */
       navigate("/login");
     } catch (error) {
       console.error("회원가입 실패:", error);

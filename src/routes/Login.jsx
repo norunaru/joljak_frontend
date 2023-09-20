@@ -118,15 +118,28 @@ const Login = () => {
 
       //서버 응답 성공적이라고 가정하기 위한 주석, 이후에 주석해제
       console.log(userEmail, userPassword);
-      const response = await axios.post("http://your-backend-url/login", {
-        userEmail,
-        userPassword,
-      });
+      const response = await axios.post(
+        "http://localhost:4000/api/auth/signIn",
+        {
+          userEmail,
+          userPassword,
+        }
+      );
 
-      if (response.data.result) {
+      /*
+      //확인용 더미 코드
+      const response = {
+          "result": false,
+          "message": "Sign In Failed",
+          "data": null
+        }
+      console.log(response.result);
+       */
+
+      if (response.result) {
         // 로그인 성공
         console.log("로그인 성공");
-        const token = response.data.data.token;
+        const token = response.data.token;
         localStorage.setItem("token", token);
         // Recoil을 사용하여 isLoggedInState 값을 업데이트
         setIsLoggedIn(true);
@@ -167,9 +180,6 @@ const Login = () => {
           <Link to="/signup">Create Account</Link>
           {error && <p style={{ color: "red", marginLeft: "1rem" }}>{error}</p>}
         </LoginForm>
-        {/* <button onClick={handleLogin}>Login</button>
-      {error && <p style={{ color: "red" }}>{error}</p>}{" "}
-      에러 메시지 표시 */}
       </Container>
     </Page>
   );
