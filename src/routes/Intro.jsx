@@ -2,9 +2,8 @@ import { styled } from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
-
-import { useRecoilState } from "recoil";
-import { isLoggedInState } from "../atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { isLoggedInState, userNicknameAtom } from "../atoms";
 
 // 컴포넌트
 const Page = styled.div`
@@ -184,13 +183,14 @@ const Title = styled.h1`
 
 function Intro() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+  const userNickname = useRecoilValue(userNicknameAtom);
 
   return (
     <Page>
       <Container>
         <Header>
           <Title>
-            🎙️ Intro Page{" "}
+            {isLoggedIn ? `환영합니다, ${userNickname}님!` : "🎙️ Intro Page"}
             <a href="https://github.com/poramfe" target="_blank">
               <FaGithub />
             </a>
@@ -203,7 +203,7 @@ function Intro() {
             <Link to={isLoggedIn ? "/home" : "/login"}>Ai 커버 생성하기</Link>
           </ToHome>
         </Box1>
-        {/* <Slider>
+        <Slider>
           <AnimatePresence>
             <Row>
               <CoverSample
@@ -234,7 +234,7 @@ function Intro() {
               </CoverSample>
             </Row>
           </AnimatePresence>
-        </Slider> */}
+        </Slider>
         <Box2>
           <Explanation>How to create</Explanation>
           <HowToMake>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
-import { isLoggedInState } from "../atoms";
+import { isLoggedInState, userNicknameAtom } from "../atoms";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -105,6 +105,7 @@ const Login = () => {
 
   // isLoggedInState의 값을 업데이트하기 위한 Recoil hook
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const setuserNicknameAtom = useSetRecoilState(userNicknameAtom);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -118,16 +119,26 @@ const Login = () => {
 
       //서버 응답 성공적이라고 가정하기 위한 주석, 이후에 주석해제
       console.log(userEmail, userPassword);
-      const response = await axios.post(
-        "http://localhost:4000/api/auth/signIn",
-        {
-          userEmail,
-          userPassword,
-        }
-      );
+
+      //성공 확인용 더미 코드
+      const response = {
+        result: true,
+        message: "로그인 성공",
+        data: {
+          token:
+            "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImlhdCI6MTY5NTExMTYzOCwiZXhwIjoxNjk1MTE1MjM4fQ.lqLwMnwjbsK0QCpDgos2lq5pooZV6dzIfI173fE5TxCYqrAsA_9czzp0ycF_hDWKCy3k-MAjP1__KNRrCxMlLw",
+          exprTime: 3600000,
+          user: {
+            userEmail: "test@test.com",
+            userPassword: "",
+            userNickname: "test1",
+          },
+        },
+      };
+      console.log(response.result);
 
       /*
-      //확인용 더미 코드
+      //실패 확인용 더미 코드
       const response = {
           "result": false,
           "message": "Sign In Failed",
@@ -136,13 +147,24 @@ const Login = () => {
       console.log(response.result);
        */
 
+      //   const response = await axios.post(
+      //     "http://localhost:4000/api/auth/signIn",
+      //     {
+      //       userEmail,
+      //       userPassword,
+      //     }
+      //   );
+
       if (response.result) {
         // 로그인 성공
         console.log("로그인 성공");
         const token = response.data.token;
         localStorage.setItem("token", token);
         // Recoil을 사용하여 isLoggedInState 값을 업데이트
+        const userNickname = response.data.user.userNickname;
+        setuserNicknameAtom(userNickname);
         setIsLoggedIn(true);
+        console.log(userNickname);
         navigate("/");
       } else {
         // 로그인 실패

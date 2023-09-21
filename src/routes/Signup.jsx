@@ -123,6 +123,26 @@ const Signup = () => {
     try {
       //임시 코드, email과 password가 포함된 POST 요청을 백엔드로 보냄
 
+      /*
+      //실패 확인용 더미 코드
+      const response = {
+        result: false,
+        message: "이미 등록된 닉네임입니다!",
+        data: null,
+      };  
+      console.log(response.result);
+       */
+
+      /*
+      //성공 확인용 더미 코드
+      const response = {
+        result: true,
+        message: "회원가입 성공!",
+        data: null,
+      };  
+      console.log(response.result);
+       */
+
       const response = await axios.post(
         "http://localhost:4000/api/auth/signUp",
         {
@@ -133,15 +153,6 @@ const Signup = () => {
         }
       );
 
-      /*
-      //확인용 더미 코드
-      const response = {
-        result: false,
-        message: "이미 등록된 닉네임입니다!",
-        data: null,
-      };
-      
-       */
       console.log(response.result);
       //회원가입 실패시 handleSignup함수 탈출, 에러내용 변경
       if (response.result === false) {
