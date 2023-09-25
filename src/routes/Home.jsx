@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { FaMusic, FaGithub } from "react-icons/fa";
+import KakaoMap from "../components/KakaoMap";
 
 const Page = styled.div`
   background-color: black;
@@ -130,12 +131,12 @@ function Home() {
   return (
     <Page>
       <NavBar>
-        <h3>Create</h3>
+        <h3>Seoul Map</h3>
       </NavBar>
       <Container>
         <Box1>
-          <h4>Source File</h4>
-          <Label onClick={handleFileSelect}>
+          <h4>Bridges</h4>
+          {/* <Label onClick={handleFileSelect}>
             <IconWrapper>
               <FaMusic />
             </IconWrapper>
@@ -145,10 +146,9 @@ function Home() {
             type="file"
             ref={fileInputRef}
             onChange={handleFileChange}
-          />
-          {/* {selectedFile && (
-            <SelectedFileName> Selected File: {selectedFile}</SelectedFileName>
-          )} */}
+          /> */}
+          <KakaoMap />
+
           <Button>Run</Button>
         </Box1>
         <Box1>

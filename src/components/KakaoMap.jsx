@@ -75,7 +75,7 @@ const KakaoMap = () => {
       },
       {
         name: "서강대교",
-        latitude: 126.93600789973944,
+        latitude: 37.53868254264963,
         longitude: 126.9253233033947,
       },
       {
@@ -103,6 +103,16 @@ const KakaoMap = () => {
         latitude: 37.517669455903565,
         longitude: 126.95891616761445,
       },
+      {
+        name: "영동대교",
+        latitude: 37.52941202925295,
+        longitude: 127.05677064443944,
+      },
+      {
+        name: "양화대교",
+        latitude: 37.54329769375769,
+        longitude: 126.90350143586107,
+      },
     ];
 
     // 다리별로 마커 생성 및 추가
@@ -121,9 +131,12 @@ const KakaoMap = () => {
       const infowindow = new kakao.maps.InfoWindow({
         content: `<div style="width: auto; height: auto; padding: 10px; font-size: 14px; color: black;">${bridge.name}</div>`,
       });
-
-      kakao.maps.event.addListener(marker, "click", function () {
+      kakao.maps.event.addListener(marker, "mouseover", function () {
         infowindow.open(map, marker);
+      });
+
+      kakao.maps.event.addListener(marker, "mouseout", function () {
+        infowindow.close();
       });
       //
     });
@@ -139,19 +152,21 @@ const KakaoMap = () => {
       console.log("경도 :", longitude);
     });
 
+    /*
     // 교통정보
     // map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
 
     // 지형도로 표시
     // map.addOverlayMapTypeId(kakao.maps.MapTypeId.TERRAIN);
+     */
   }, []);
 
   return (
     <div
       id="map"
       style={{
-        width: "80vw",
-        height: "80vh",
+        width: "100%",
+        height: "100%",
       }}
     ></div>
   );
