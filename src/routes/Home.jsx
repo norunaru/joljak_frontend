@@ -2,9 +2,26 @@ import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { FaMusic, FaGithub } from "react-icons/fa";
 import KakaoMap from "../components/KakaoMap";
+import BoxGrid from "../components/BoxGrid";
 
 const Page = styled.div`
-  background-color: black;
+  height: 100vh;
+  /* 전체 화면 백그라운드 스타일 설정 */
+  background-size: 100% 100%;
+  background-position: 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px,
+    0px 0px, 0px 0px;
+  background-image: radial-gradient(
+      70% 53% at 36% 76%,
+      #000000f5 0%,
+      #073aff00 100%
+    ),
+    radial-gradient(42% 53% at 15% 94%, #000000f5 7%, #073aff00 100%),
+    radial-gradient(42% 53% at 34% 72%, #903df4f5 7%, #073aff00 100%),
+    radial-gradient(18% 28% at 35% 87%, #000000f5 7%, #073aff00 100%),
+    radial-gradient(31% 43% at 7% 98%, #0f0f17f5 24%, #073aff00 100%),
+    radial-gradient(35% 56% at 91% 74%, #0e0c55f5 9%, #073aff00 100%),
+    radial-gradient(74% 86% at 67% 38%, #000000f5 24%, #073aff00 100%),
+    linear-gradient(181deg, #085877ff 1%, #4c00fcff 100%);
 `;
 const Button = styled.button`
   background: linear-gradient(45deg, #12097e, #7d49ed);
@@ -58,6 +75,35 @@ const Box1 = styled.div`
   margin: 30px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  border: 2px solid ${(props) => props.theme.accentColor};
+  border-radius: 20px;
+  height: 70vh;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(17.6px);
+  -webkit-backdrop-filter: blur(17.6px);
+
+  h4 {
+    font-size: 40px;
+    font-weight: 600;
+    align-self: flex-start; /* 좌상단에 정렬되도록 추가 */
+    margin-bottom: 10px; /* 아래 여백 추가 */
+  }
+
+  @media (max-width: 768px) {
+    height: 50vh;
+  }
+`;
+
+const Box2 = styled.div`
+  flex: 1;
+  background-color: transparent;
+  color: white;
+  padding: 20px;
+  margin: 30px;
+  display: flex;
   align-items: center;
   border: 2px solid ${(props) => props.theme.accentColor};
   border-radius: 20px;
@@ -151,9 +197,10 @@ function Home() {
 
           <Button>Run</Button>
         </Box1>
-        <Box1>
-          <h4>Output</h4>
-        </Box1>
+        <Box2>
+          {/* <h4>Output</h4> */}
+          <BoxGrid />
+        </Box2>
       </Container>
     </Page>
   );
