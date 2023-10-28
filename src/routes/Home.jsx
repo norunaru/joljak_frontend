@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { FaMusic, FaGithub } from "react-icons/fa";
 import KakaoMap from "../components/KakaoMap";
 import BoxGrid from "../components/BoxGrid";
+import { useRecoilState } from "recoil";
+import { isLoggedInState, userNicknameAtom } from "../atoms";
+import { useNavigate } from "react-router-dom";
 
 const Page = styled.div`
   height: 100vh;
@@ -34,11 +37,29 @@ const Button = styled.button`
   font-size: 20px;
 `;
 
+const LogOutBtn = styled.button`
+  background-color: #3a16cc;
+  position: absolute;
+  right: 30px;
+  display: block;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
 const NavBar = styled.nav`
   height: 10vh;
   position: fixed;
   width: 100%;
-  background-color: black;
+  background-color: #0a172a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -160,24 +181,23 @@ const IconWrapper = styled.span`
 
 function Home() {
   const fileInputRef = useRef(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+  //const [selectedFile, setSelectedFile] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+  const [userNickname, setUserNickname] = useRecoilState(userNicknameAtom);
+  const navigate = useNavigate();
 
-  const handleFileSelect = () => {
-    fileInputRef.current.click();
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      console.log("Selected file:", file.name);
-      setSelectedFile(file.name);
-    }
+  const handleLogOut = () => {
+    // 로그아웃 버튼 클릭 시
+    setIsLoggedIn(false);
+    setUserNickname("");
+    navigate("/");
   };
 
   return (
     <Page>
       <NavBar>
         <h3>Seoul Map</h3>
+        <LogOutBtn onClick={handleLogOut}>Log out</LogOutBtn>
       </NavBar>
       <Container>
         <Box1>
@@ -194,8 +214,6 @@ function Home() {
             onChange={handleFileChange}
           /> */}
           <KakaoMap />
-
-          <Button>Run</Button>
         </Box1>
         <Box2>
           {/* <h4>Output</h4> */}

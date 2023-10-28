@@ -53,7 +53,6 @@ const Card = styled(motion.div)`
   padding: 30px;
   display: grid;
   grid-template-columns: 1fr;
-  border-radius: 5%;
   grid-template-rows: min-content 1fr;
   gap: 20px;
   background-color: white;
@@ -68,10 +67,10 @@ const Card = styled(motion.div)`
     font-size: 2rem;
     font-weight: 700;
   }
-  i {
+  video {
     height: 175px;
     width: 175px;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 1);
     @media (max-width: 768px) {
       height: 100px;
       width: 100px;
@@ -86,8 +85,10 @@ const Card = styled(motion.div)`
     font-size: 1.6rem;
   }
 `;
-
-const Img = styled.i``;
+const Video = styled.video`
+  width: 175px;
+  height: 175px;
+`;
 
 const CloseButton = styled.button`
   position: absolute;
@@ -241,7 +242,20 @@ const BoxGrid = () => {
             <CardTitle>{selectedBox}</CardTitle>
 
             <div>
-              <Img></Img>
+              <Video
+                muted
+                autoPlay
+                controls
+                width={"175px"}
+                height={"175px"}
+                loop
+              >
+                <source
+                  src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                  type="video/mp4"
+                />
+                <strong>Your browser does not support the video tag.</strong>
+              </Video>
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
                 ea neque quidem exercitationem possimus.
@@ -249,9 +263,6 @@ const BoxGrid = () => {
             </div>
           </Card>
         )}
-        위 코드에서 CardTitle이라는 새로운 styled-components 컴포넌트를 만들고,
-        이 컴포넌트를 사용하여 Card의 h2에 selectedBox (다리의 이름)을
-        표시하도록 수정했습니다.
       </AnimatePresence>
       {renderBoxes()}
     </Wrapper>
