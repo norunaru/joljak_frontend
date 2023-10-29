@@ -159,6 +159,35 @@ const Boards = () => {
     };
 
     fetchData();
+    //dummy
+    const dummyData = [
+      {
+        id: 1,
+        title: "게시물 제목 1",
+        content: "lorem ipsum...",
+        writer: "Michael Burry",
+      },
+      {
+        id: 2,
+        title: "게시물 제목 2",
+        content: "lorem ipsum...",
+        writer: "Jared Venette",
+      },
+      {
+        id: 3,
+        title: "게시물 제목 3",
+        content: "lorem ipsum...",
+        writer: "Powell",
+      },
+      {
+        id: 4,
+        title: "게시물 제목 4",
+        content: "lorem ipsum...",
+        writer: "Larry Fink",
+      },
+    ];
+    setBoardList(dummyData);
+    //dummy end
   }, []);
   return (
     <Page>

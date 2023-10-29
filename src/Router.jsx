@@ -12,6 +12,7 @@ import Boards from "./routes/Boards";
 import BoardList from "./components/BoardList";
 import BoardDetail from "./components/BoardDetail";
 import CreateBoardPage from "./routes/CreateBoardPage";
+import BoardUpdate from "./routes/BoardUpdate";
 
 function Router() {
   const isLoggedIn = useRecoilValue(isLoggedInState);
@@ -24,6 +25,9 @@ function Router() {
         <Route path="/boards" element={<Boards />} />
         {/* Use BoardList component for /boards route */}
         <Route path="/boards/:boardId" element={<BoardDetail />} />
+
+        <Route path="update-board/:boardId" element={<BoardUpdate />} />
+
         {/* Use BoardDetail component for /boards/:boardId route */}
         <Route
           path="/mypage"
@@ -31,8 +35,8 @@ function Router() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<Intro />} />
         <Route path="/create-board" element={<CreateBoardPage />} />
+        <Route path="/" element={<Intro />} />
       </Routes>
     </BrowserRouter>
   );

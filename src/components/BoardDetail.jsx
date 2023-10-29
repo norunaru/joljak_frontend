@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { RiCloseCircleLine } from "react-icons/ri";
+import { RiCloseCircleLine, RiToolsFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userNicknameAtom } from "../atoms";
@@ -53,6 +53,16 @@ const Icon = styled.span`
 `;
 
 const CloseButton = styled.button`
+  top: 15px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 5px;
+`;
+
+const UpdateButton = styled.button`
   top: 15px;
   right: 10px;
   background-color: transparent;
@@ -165,17 +175,16 @@ const BoardDetail = () => {
     };
 
     fetchBoardDetail();
-
     //더미데이터 코드 ~~
-    // const dummy = {
-    //   id: 1,
-    //   title: "게시물 제목 1",
-    //   content:
-    //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec erat lorem, sollicitudin quis aliquam id, luctus a nisi.",
-    //   writer: "Michael Burry",
-    //   img: 1,
-    // };
-    // setBoard(dummy);
+    const dummy = {
+      id: 1,
+      title: "게시물 제목 1",
+      content:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec erat lorem, sollicitudin quis aliquam id, luctus a nisi.",
+      writer: "Michael Burry",
+      img: 1,
+    };
+    setBoard(dummy);
     //~~ 더미데이터 코드
   }, [boardId]);
 
@@ -185,12 +194,12 @@ const BoardDetail = () => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch("/api/delete-board", {
+      const response = await fetch("http://localhost:4000/api/delete-board", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: board.id }), // Assuming board contains the ID of the post
+        body: JSON.stringify({ id: board.id }),
       });
 
       if (response.ok) {
@@ -198,14 +207,15 @@ const BoardDetail = () => {
       } else {
         const data = await response.json();
         if (data.error === "NotAuthorized") {
-          // Show an alert that the user is not the author of the post
           alert("작성자가 아닙니다.");
         }
-        // Handle other errors if needed
       }
     } catch (error) {
       console.error("Error deleting post:", error);
     }
+  };
+  const handleUpdate = () => {
+    navigate(`/update-board/${boardId}`); // 수정 페이지로 이동
   };
 
   return (
@@ -233,6 +243,25 @@ const BoardDetail = () => {
           </div>
           <LinkBox>
             <GoBackLink to="/boards">돌아가기</GoBackLink>
+
+            <UpdateButton
+              //   onClick={
+              //     userNickname == board.writer
+              //       ? handleUpdate
+              //       : () => alert("작성자가 아닙니다.")
+              //   }
+
+              //dummy
+              onClick={
+                userNickname == board.writer
+                  ? () => alert("작성자가 아닙니다.")
+                  : handleUpdate
+              }
+            >
+              <Icon>
+                <RiToolsFill />
+              </Icon>
+            </UpdateButton>
 
             <CloseButton
               onClick={
