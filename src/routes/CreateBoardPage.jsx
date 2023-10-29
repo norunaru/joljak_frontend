@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userNicknameAtom } from "../atoms";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -135,7 +135,8 @@ const GoBackLink = styled(Link)`
 
 const CreateBoardPage = () => {
   const navigate = useNavigate();
-  const userNickname = useRecoilValue(userNicknameAtom);
+  const getUserNickname = useRecoilValue(userNicknameAtom);
+  const setUserNickname = useSetRecoilState(userNicknameAtom);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -158,6 +159,8 @@ const CreateBoardPage = () => {
       alert("제목과 내용을 모두 입력해주세요.");
       return;
     }
+    const userNickname = localStorage.getItem("userNickname");
+    setUserNickname(userNickname);
 
     const writer = userNickname;
 
@@ -170,30 +173,33 @@ const CreateBoardPage = () => {
     }
 
     //더미데이터
-    const fakeAxios = {
-      post: (url, data, config) => {
-        // 여기서 가짜 응답을 생성합니다.
-        return Promise.resolve({
-          status: 201,
-          data: "가짜 응답 데이터",
-        });
-      },
-    };
+    // const fakeAxios = {
+    //   post: (url, data, config) => {
+    //     // 여기서 가짜 응답을 생성합니다.
+    //     return Promise.resolve({
+    //       status: 201,
+    //       data: "가짜 응답 데이터",
+    //     });
+    //   },
+    // };
     //
 
     try {
       //더미response
-      const response = await fakeAxios.post("/api/create-board", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      // const response = await fakeAxios.post("/api/create-board", formData, {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      // });
 
-      //   const response = await axios.post("/api/create-board", formData, {
-      //     headers: {
-      //       "Content-Type": "multipart/form-data",
-      //     },
-      //   });
+      const response = await axios.post(
+        "http://localhost:4000/api/create-board",
+        {
+          title,
+          content,
+          writer,
+        }
+      );
 
       if (response.status === 201) {
         alert("게시물이 작성되었습니다.");

@@ -6,6 +6,9 @@ import BoxGrid from "../components/BoxGrid";
 import { useRecoilState } from "recoil";
 import { isLoggedInState, userNicknameAtom } from "../atoms";
 import { useNavigate } from "react-router-dom";
+import LogOutBtn from "../components/LogOutBtn";
+import GoBackLink from "../components/GoBackLink";
+import NameChecker from "../components/NameChecker";
 
 const Page = styled.div`
   height: 100vh;
@@ -37,23 +40,23 @@ const Button = styled.button`
   font-size: 20px;
 `;
 
-const LogOutBtn = styled.button`
-  background-color: #3a16cc;
-  position: absolute;
-  right: 30px;
-  display: block;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 16px;
+// const LogOutBtn = styled.button`
+//   background-color: #3a16cc;
+//   position: absolute;
+//   right: 30px;
+//   display: block;
+//   color: #fff;
+//   border: none;
+//   padding: 10px 20px;
+//   border-radius: 5px;
+//   cursor: pointer;
+//   transition: background-color 0.3s;
+//   font-size: 16px;
 
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
+//   &:hover {
+//     background-color: #0056b3;
+//   }
+// `;
 
 const NavBar = styled.nav`
   height: 10vh;
@@ -147,38 +150,6 @@ const Box2 = styled.div`
   }
 `;
 
-const InputFile = styled.input`
-  display: none;
-`;
-
-const Label = styled.label`
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  border: 5px dashed;
-  height: 30vh;
-  background-color: transparent;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  margin-top: 10px;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 20px;
-  cursor: pointer;
-
-  @media (max-width: 768px) {
-    flex-direction: column; /* 화면 크기가 768px 이하일 때 세로로 배치 */
-    height: 80%;
-  }
-`;
-
-const IconWrapper = styled.span`
-  margin-bottom: 15px;
-`;
-
 function Home() {
   const fileInputRef = useRef(null);
   //const [selectedFile, setSelectedFile] = useState(null);
@@ -196,6 +167,8 @@ function Home() {
   return (
     <Page>
       <NavBar>
+        <GoBackLink to="/boards">게시판</GoBackLink>
+
         <h3>Seoul Map</h3>
         <LogOutBtn onClick={handleLogOut}>Log out</LogOutBtn>
       </NavBar>
@@ -220,6 +193,7 @@ function Home() {
           <BoxGrid />
         </Box2>
       </Container>
+      <NameChecker />
     </Page>
   );
 }

@@ -5,6 +5,10 @@ import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { isLoggedInState, userNicknameAtom } from "../atoms";
 import { useNavigate } from "react-router-dom";
+import GoBackLink from "../components/GoBackLink";
+import LogOutBtn from "../components/LogOutBtn";
+import NameChecker from "../components/NameChecker";
+import axios from "axios";
 
 const Page = styled.div`
   height: 100vh;
@@ -24,24 +28,6 @@ const Page = styled.div`
     radial-gradient(35% 56% at 91% 74%, #0e0c55f5 9%, #073aff00 100%),
     radial-gradient(74% 86% at 67% 38%, #000000f5 24%, #073aff00 100%),
     linear-gradient(181deg, #085877ff 1%, #4c00fcff 100%);
-`;
-
-const LogOutBtn = styled.button`
-  background-color: #3a16cc;
-  position: absolute;
-  right: 30px;
-  display: block;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 16px;
-
-  &:hover {
-    background-color: #0056b3;
-  }
 `;
 
 const NavBar = styled.nav`
@@ -98,9 +84,12 @@ const ListContainer = styled.div`
   width: 80vw;
   height: 90vh;
   background-color: transparent;
+  border: 2px solid ${(props) => props.theme.accentColor};
+  border-radius: 20px;
   border-radius: 10px;
   padding: 20px;
   text-align: center;
+  background: rgba(255, 255, 255, 0.12);
 `;
 const List = styled.ul`
   list-style: none;
@@ -152,62 +141,31 @@ const Boards = () => {
   const navigate = useNavigate();
 
   const handleLogOut = () => {
-    // 로그아웃 버튼 클릭 시
     setIsLoggedIn(false);
     setUserNickname("");
     navigate("/");
   };
 
   useEffect(() => {
-    /*
-  // 게시물 목록을 백엔드 API로부터 가져와 상태를 업데이트
-  fetch("/api/board-list")
-    .then((response) => response.json())
-    .then((data) => {
-      setBoardList(data);
-    })
-    .catch((error) => {
-      console.error("게시물 목록을 불러오는 중 오류 발생: ", error);
-    });
-    */
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:4000/api/board-list"
+        );
+        setBoardList(response.data.data); // 수정: response.data.data를 사용하여 게시물 데이터를 가져옵니다.
+      } catch (error) {
+        console.error("게시물 목록을 불러오는 중 오류 발생: ", error);
+      }
+    };
 
-    //더미데이터 코드
-    const dummyData = [
-      {
-        id: 1,
-        title: "게시물 제목 1",
-        content: "lorem ipsum...",
-        writer: "Michael Burry",
-      },
-      {
-        id: 2,
-        title: "게시물 제목 2",
-        content: "lorem ipsum...",
-        writer: "Jared Venette",
-      },
-      {
-        id: 3,
-        title: "게시물 제목 3",
-        content: "lorem ipsum...",
-        writer: "Powell",
-      },
-      {
-        id: 4,
-        title: "게시물 제목 4",
-        content: "lorem ipsum...",
-        writer: "Larry Fink",
-      },
-    ];
-
-    // 더미 데이터를 상태에 설정
-    setBoardList(dummyData);
+    fetchData();
   }, []);
-
   return (
     <Page>
       <NavBar>
+        <GoBackLink to="/home">home</GoBackLink>
         <h3>Boards</h3>
-        <LogOutBtn onClick={handleLogOut}>Log out</LogOutBtn>
+        <LogOutBtn>Log out</LogOutBtn>
       </NavBar>
       <Container>
         <ListContainer>
@@ -234,6 +192,7 @@ const Boards = () => {
           <Link to="/create-board">게시물 작성</Link>
         </NewPost>
       </Container>
+      <NameChecker />
     </Page>
   );
 };

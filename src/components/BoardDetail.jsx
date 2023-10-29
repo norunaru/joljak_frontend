@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userNicknameAtom } from "../atoms";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Page = styled.div`
   height: 100vh;
@@ -152,25 +153,29 @@ const BoardDetail = () => {
   const [board, setBoard] = useState(null);
 
   useEffect(() => {
-    fetch(`/api/board-detail/${boardId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setBoard(data);
-      })
-      .catch((error) => {
+    const fetchBoardDetail = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/api/board-detail/${boardId}`
+        );
+        setBoard(response.data.data);
+      } catch (error) {
         console.error("게시물 상세 정보를 불러오는 중 오류 발생: ", error);
-      });
+      }
+    };
+
+    fetchBoardDetail();
 
     //더미데이터 코드 ~~
-    const dummy = {
-      id: 1,
-      title: "게시물 제목 1",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec erat lorem, sollicitudin quis aliquam id, luctus a nisi.",
-      writer: "Michael Burry",
-      img: 1,
-    };
-    setBoard(dummy);
+    // const dummy = {
+    //   id: 1,
+    //   title: "게시물 제목 1",
+    //   content:
+    //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec erat lorem, sollicitudin quis aliquam id, luctus a nisi.",
+    //   writer: "Michael Burry",
+    //   img: 1,
+    // };
+    // setBoard(dummy);
     //~~ 더미데이터 코드
   }, [boardId]);
 

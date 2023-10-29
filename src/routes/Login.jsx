@@ -121,21 +121,21 @@ const Login = () => {
       console.log(userEmail, userPassword);
 
       //성공 확인용 더미 코드
-      const response = {
-        result: true,
-        message: "로그인 성공",
-        data: {
-          token:
-            "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImlhdCI6MTY5NTExMTYzOCwiZXhwIjoxNjk1MTE1MjM4fQ.lqLwMnwjbsK0QCpDgos2lq5pooZV6dzIfI173fE5TxCYqrAsA_9czzp0ycF_hDWKCy3k-MAjP1__KNRrCxMlLw",
-          exprTime: 3600000,
-          user: {
-            userEmail: "test@test.com",
-            userPassword: "",
-            userNickname: "test1",
-          },
-        },
-      };
-      console.log(response.result);
+      // const response = {
+      //   result: true,
+      //   message: "로그인 성공",
+      //   data: {
+      //     token:
+      //       "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImlhdCI6MTY5NTExMTYzOCwiZXhwIjoxNjk1MTE1MjM4fQ.lqLwMnwjbsK0QCpDgos2lq5pooZV6dzIfI173fE5TxCYqrAsA_9czzp0ycF_hDWKCy3k-MAjP1__KNRrCxMlLw",
+      //     exprTime: 3600000,
+      //     user: {
+      //       userEmail: "test@test.com",
+      //       userPassword: "",
+      //       userNickname: "test1",
+      //     },
+      //   },
+      // };
+      // console.log(response.result);
 
       /*
       //실패 확인용 더미 코드
@@ -147,33 +147,30 @@ const Login = () => {
       console.log(response.result);
        */
 
-      //   const response = await axios.post(
-      //     "http://localhost:4000/api/auth/signIn",
-      //     {
-      //       userEmail,
-      //       userPassword,
-      //     }
-      //   );
+      const response = await axios.post(
+        "http://localhost:4000/api/auth/signIn",
+        {
+          userEmail,
+          userPassword,
+        }
+      );
 
-      if (response.result) {
-        // 로그인 성공
-        console.log("로그인 성공");
-        const token = response.data.token;
+      if (response.data.result) {
+        const token = response.data.data.token;
         localStorage.setItem("token", token);
-        // Recoil을 사용하여 isLoggedInState 값을 업데이트
-        const userNickname = response.data.user.userNickname;
+
+        const userNickname = response.data.data.user.userNickname;
+        localStorage.setItem("userNickname", userNickname);
         setuserNicknameAtom(userNickname);
         setIsLoggedIn(true);
-        console.log(userNickname);
+
         navigate("/");
       } else {
-        // 로그인 실패
         setError("이메일 또는 비밀번호가 올바르지 않습니다.");
       }
     } catch (error) {
-      // 로그인 실패 부분 -> axios.post에서 반환되는 에러가 catch블록에서 처리. setError함수로 메시지 출력.
       console.error("로그인 실패:", error);
-      setError("이메일 또는 비밀번호가 올바르지 않습니다."); // 실패 시 에러 메시지 설정
+      setError("이메일 또는 비밀번호가 올바르지 않습니다.");
     }
   };
 
