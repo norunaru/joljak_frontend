@@ -151,14 +151,11 @@ const Box2 = styled.div`
 `;
 
 function Home() {
-  const fileInputRef = useRef(null);
-  //const [selectedFile, setSelectedFile] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
   const [userNickname, setUserNickname] = useRecoilState(userNicknameAtom);
   const navigate = useNavigate();
 
   const handleLogOut = () => {
-    // 로그아웃 버튼 클릭 시
     setIsLoggedIn(false);
     setUserNickname("");
     navigate("/");

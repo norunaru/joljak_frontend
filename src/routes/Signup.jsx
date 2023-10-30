@@ -97,7 +97,7 @@ const Signup = () => {
   const navigate = useNavigate();
   const [userEmail, setEmail] = useState("");
   const [userPassword, setPassword] = useState("");
-  const [userPasswordCheck, setPasswordCheck] = useState("");
+  const [userPasswordcheck, setPasswordCheck] = useState("");
   const [userNickname, setNickname] = useState("");
   const [error, setError] = useState("");
 
@@ -115,7 +115,7 @@ const Signup = () => {
       return;
     }
 
-    if (userPassword !== userPasswordCheck) {
+    if (userPassword !== userPasswordcheck) {
       setError("Password and PasswordCheck should be same.");
       return;
     }
@@ -148,7 +148,7 @@ const Signup = () => {
         {
           userEmail,
           userPassword,
-          userPasswordCheck,
+          userPasswordcheck,
           userNickname,
         }
       );
@@ -192,7 +192,7 @@ const Signup = () => {
           <Input
             type="password"
             placeholder="passwordCheck"
-            value={userPasswordCheck}
+            value={userPasswordcheck}
             onChange={(e) => setPasswordCheck(e.target.value)}
           />
           <Input

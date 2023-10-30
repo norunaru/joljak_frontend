@@ -110,6 +110,8 @@ const BoardUpdate = () => {
   const [content, setContent] = useState("");
   const { boardId } = useParams();
 
+  const userNickname = localStorage.getItem("userNickname");
+
   useEffect(() => {
     const fetchBoardDetail = async () => {
       try {
@@ -132,16 +134,17 @@ const BoardUpdate = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:4000/api/update-board/${boardId}`,
+        `http://localhost:4000/api/update-board`,
         {
+          id: boardId,
           title: title,
           content: content,
+          writer: userNickname,
         }
       );
-
-      if (response.status === 200) {
+      if (response.status === 204) {
         alert("수정 완료");
-        navigate(`/board/${boardId}`);
+        navigate(`/boards`);
       } else {
         alert("게시물 수정에 실패했습니다.");
       }

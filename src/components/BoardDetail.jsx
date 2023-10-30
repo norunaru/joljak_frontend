@@ -176,15 +176,15 @@ const BoardDetail = () => {
 
     fetchBoardDetail();
     //더미데이터 코드 ~~
-    const dummy = {
-      id: 1,
-      title: "게시물 제목 1",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec erat lorem, sollicitudin quis aliquam id, luctus a nisi.",
-      writer: "Michael Burry",
-      img: 1,
-    };
-    setBoard(dummy);
+    // const dummy = {
+    //   id: 1,
+    //   title: "게시물 제목 1",
+    //   content:
+    //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec erat lorem, sollicitudin quis aliquam id, luctus a nisi.",
+    //   writer: "Michael Burry",
+    //   img: 1,
+    // };
+    // setBoard(dummy);
     //~~ 더미데이터 코드
   }, [boardId]);
 
@@ -201,11 +201,12 @@ const BoardDetail = () => {
         },
         body: JSON.stringify({ id: board.id }),
       });
-
+      console.log(response);
       if (response.ok) {
         navigate("/boards");
       } else {
         const data = await response.json();
+
         if (data.error === "NotAuthorized") {
           alert("작성자가 아닙니다.");
         }
@@ -245,18 +246,18 @@ const BoardDetail = () => {
             <GoBackLink to="/boards">돌아가기</GoBackLink>
 
             <UpdateButton
-              //   onClick={
-              //     userNickname == board.writer
-              //       ? handleUpdate
-              //       : () => alert("작성자가 아닙니다.")
-              //   }
-
-              //dummy
               onClick={
                 userNickname == board.writer
-                  ? () => alert("작성자가 아닙니다.")
-                  : handleUpdate
+                  ? handleUpdate
+                  : () => alert("작성자가 아닙니다.")
               }
+
+              // dummy
+              // onClick={
+              //   userNickname == board.writer
+              //     ? handleUpdate
+              //     : () => alert("작성자가 아닙니다.")
+              // }
             >
               <Icon>
                 <RiToolsFill />

@@ -5,7 +5,7 @@ const BoardList = () => {
 
   useEffect(() => {
     // 게시물 목록을 백엔드 API로부터 가져와 상태를 업데이트
-    fetch("/api/board-list")
+    fetch("http://localhost:4000/api/board-list")
       .then((response) => response.json())
       .then((data) => {
         setBoardList(data);
