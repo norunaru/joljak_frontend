@@ -78,7 +78,7 @@ const NavBar = styled.nav`
 
 const Container = styled.div`
   position: absolute;
-  top: 10vh; /* NavBar 아래부터 시작 */
+  top: 15vh; /* NavBar 아래부터 시작 */
   width: 100%;
   bottom: 0; /* 화면 아래까지 높이 설정 */
   background-color: transparent;

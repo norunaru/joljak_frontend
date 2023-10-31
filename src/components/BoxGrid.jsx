@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
-  padding: 20px;
+  padding: 10px;
 `;
 
 const CardTitle = styled.h2`
@@ -77,7 +77,6 @@ const Card = styled(motion.div)`
     }
   }
   p {
-    margin-left: 30px;
     width: 60%;
     display: block;
     text-align: justify;
@@ -302,6 +301,7 @@ const BoxGrid = () => {
         setCarsPerMinIndex(carsPerMinIndex + 1);
       }
     }, 5000);
+    //60000으로 하면 1분마다
 
     return () => clearInterval(interval);
   }, [carsPerMinIndex]);
@@ -346,21 +346,24 @@ const BoxGrid = () => {
                   <strong>Your browser does not support the video tag.</strong>
                 </Video>
               ) : (
-                // <motion.div
-                //   initial={{ opacity: 0 }}
-                //   animate={{ opacity: 1 }}
-                //   transition={{ duration: 0.5 }}
-                //   style={{ width: "175px", height: "175px" }}
-                // >
-                //   <RiErrorWarningLine size="150" color="white" />
-                // </motion.div>
-                <Video muted autoPlay loop>
-                  <source
-                    src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                    type="video/mp4"
-                  />
-                  <strong>Your browser does not support the video tag.</strong>
-                </Video>
+                // 이게 진짜코드
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                  style={{ width: "175px", height: "175px" }}
+                >
+                  <RiErrorWarningLine size="150" color="white" />
+                </motion.div>
+
+                //아래 Video는 더미코드
+                // <Video muted autoPlay loop>
+                //   <source
+                //     src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                //     type="video/mp4"
+                //   />
+                //   <strong>Your browser does not support the video tag.</strong>
+                // </Video>
               )}
               {currentCarsPerMin.length > 0 && (
                 <Count>

@@ -194,7 +194,7 @@ const Boards = () => {
     <Page>
       <NavBar>
         <GoBackLink to="/home">home</GoBackLink>
-        <h3>Boards</h3>
+        <h3>공지사항</h3>
         <NameChecker />
         <LogOutBtn>Log out</LogOutBtn>
       </NavBar>
