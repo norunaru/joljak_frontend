@@ -69,9 +69,8 @@ const Card = styled(motion.div)`
     font-weight: 700;
   }
   video {
-    height: 175px;
-    width: 175px;
-    background: rgba(255, 255, 255, 1);
+    width: 300px;
+    height: 230px;
     @media (max-width: 768px) {
       height: 100px;
       width: 100px;
@@ -86,6 +85,7 @@ const Card = styled(motion.div)`
     font-size: 1.6rem;
   }
 `;
+
 const Video = styled.video`
   width: 175px;
   height: 175px;
@@ -137,48 +137,174 @@ const cardVariants = {
   },
 };
 
+const Count = styled.div`
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+`;
+
 const BoxGrid = () => {
   const [selectedBox, setSelectedBox] = useState(null);
-  const [bridgeId, setBridgeId] = useState(null);
+  const [videoId, setBridgeId] = useState(null);
+  const [videoBlob, setVideoBlob] = useState(null); // 추가: Blob 데이터 상태
+  const [currentCarsPerMin, setCurrentCarsPerMin] = useState([]);
+  const [carsPerMinIndex, setCarsPerMinIndex] = useState(0);
 
-  const [videoData, setVideoData] = useState(null);
-
+  //일산 행주 한강 추가해야됨
+  //가양 노량 영동 →일산 행주 한강
+  //가양 -> 일산
+  //노량 ==한강
+  //영동 -> 행주
   const bridges = [
-    { id: 1, name: "강동대교" },
-    { id: 2, name: "천호대교" },
-    { id: 3, name: "올림픽대교" },
-    { id: 4, name: "잠실대교" },
-    { id: 5, name: "청담대교" },
-    { id: 6, name: "성수대교" },
-    { id: 7, name: "동호대교" },
-    { id: 8, name: "한남대교" },
-    { id: 9, name: "반포대교" },
-    { id: 10, name: "동작대교" },
-    { id: 11, name: "원효대교" },
-    { id: 12, name: "마포대교" },
-    { id: 13, name: "서강대교" },
-    { id: 14, name: "성산대교" },
-    { id: 15, name: "월드컵대교" },
-    { id: 16, name: "가양대교" },
-    { id: 17, name: "방화대교" },
-    { id: 18, name: "노량대교" },
-    { id: 19, name: "영동대교" },
-    { id: 20, name: "양화대교" },
+    {
+      id: 1,
+      name: "방화대교",
+      cars_per_min: [69, 75, 47, 46, 118, 61, 68, 68],
+      mean: 69,
+    },
+    {
+      id: 2,
+      name: "일산대교",
+      cars_per_min: [51, 64, 74, 59, 60, 49, 58, 69],
+      mean: 60,
+    },
+    { id: 3, name: "월드컵대교", cars_per_min: [] },
+    {
+      id: 4,
+      name: "성산대교",
+      cars_per_min: [51, 38, 38, 51, 38, 70, 24, 43],
+      mean: 44,
+    },
+    {
+      id: 5,
+      name: "양화대교",
+      cars_per_min: [35, 107, 63, 68, 39, 46, 49, 29],
+      mean: 54,
+    },
+    {
+      id: 6,
+      name: "서강대교",
+      cars_per_min: [72, 56, 27, 106, 94, 107, 78, 22],
+      mean: 70,
+    },
+    {
+      id: 7,
+      name: "마포대교",
+      cars_per_min: [19, 95, 35, 37, 184, 10, 92, 94],
+      mean: 70,
+    },
+    {
+      id: 8,
+      name: "원효대교",
+      cars_per_min: [35, 112, 41, 117, 150, 67, 126, 74],
+      mean: 90,
+    },
+    {
+      id: 9,
+      name: "한강대교",
+      cars_per_min: [55, 90, 103, 59, 23, 164, 51, 34],
+      mean: 72,
+    },
+    {
+      id: 10,
+      name: "동작대교",
+      cars_per_min: [4, 16, 2, 22, 1, 24, 5, 15],
+      mean: 11,
+    },
+    {
+      id: 11,
+      name: "반포대교",
+      cars_per_min: [29, 24, 16, 13, 22, 15, 11, 26],
+      mean: 19,
+    },
+    {
+      id: 12,
+      name: "한남대교",
+      cars_per_min: [82, 76, 65, 74, 68, 74, 69, 70],
+      mean: 72,
+    },
+    {
+      id: 13,
+      name: "동호대교",
+      cars_per_min: [64, 74, 85, 97, 111, 131, 100],
+      mean: 92,
+    },
+    {
+      id: 14,
+      name: "성수대교",
+      cars_per_min: [18, 68, 10, 50, 60, 8, 67, 11],
+      mean: 36,
+    },
+    {
+      id: 15,
+      name: "행주대교",
+      cars_per_min: [36, 147, 109, 62, 90, 123, 39],
+      mean: 86,
+    },
+    {
+      id: 16,
+      name: "청담대교",
+      cars_per_min: [56, 60, 79, 57, 61, 63, 80, 74],
+      mean: 66,
+    },
+    {
+      id: 17,
+      name: "잠실대교",
+      cars_per_min: [42, 62, 42, 49, 48, 33, 54, 37],
+      mean: 45,
+    },
+    {
+      id: 18,
+      name: "올림픽대교",
+      cars_per_min: [16, 36, 27, 41, 70, 25, 52, 26],
+      mean: 36,
+    },
+    {
+      id: 19,
+      name: "천호대교",
+      cars_per_min: [57, 46, 28, 41, 50, 35, 59],
+      mean: 43,
+    },
+    { id: 20, name: "강동대교", cars_per_min: [] },
   ];
 
   //서버에 영상 요청
   useEffect(() => {
     if (selectedBox) {
       axios
-        .get(`http://localhost:4000/api/videos/${bridgeId}/stream`)
+        .get(`http://localhost:4000/api/videos/${videoId}/stream`, {
+          responseType: "blob", // 추가: Blob 데이터 요청
+        })
         .then((response) => {
-          setVideoData(response.data);
+          setVideoBlob(response.data); // Blob 데이터를 상태에 저장
         })
         .catch((error) => {
           console.error("영상을 가져오기 실패.", error);
         });
     }
   }, [selectedBox]);
+
+  useEffect(() => {
+    if (selectedBox) {
+      setCurrentCarsPerMin(
+        bridges.find((bridge) => bridge.name === selectedBox).cars_per_min
+      );
+    }
+  }, [selectedBox]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (carsPerMinIndex >= 7) {
+        setCarsPerMinIndex(0);
+      } else {
+        setCarsPerMinIndex(carsPerMinIndex + 1);
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [carsPerMinIndex]);
 
   const handleBoxClick = (name, id) => {
     setSelectedBox(name);
@@ -187,22 +313,9 @@ const BoxGrid = () => {
 
   const handleCloseButtonClick = () => {
     setSelectedBox(null);
-    setBridgeId(null);
-  };
-
-  const renderBoxes = () => {
-    return bridges.map((bridge, index) => (
-      <Box
-        key={index}
-        className="box"
-        variants={boxVariants}
-        initial="initial"
-        animate="animate"
-        onClick={() => handleBoxClick(bridge.name, bridge.id)}
-      >
-        {bridge.name}
-      </Box>
-    ));
+    setVideoBlob(null); // 비디오를 닫을 때 Blob 데이터 초기화
+    setCurrentCarsPerMin([]);
+    setCarsPerMinIndex(0);
   };
 
   return (
@@ -222,47 +335,54 @@ const BoxGrid = () => {
                 <RiCloseCircleLine />
               </Icon>
             </CloseButton>
-
             <CardTitle>{selectedBox}</CardTitle>
-
             <div>
-              {videoData ? (
-                <Video
-                  muted
-                  autoPlay
-                  controls
-                  width={"175px"}
-                  height={"175px"}
-                  loop
-                >
+              {videoBlob ? (
+                <Video muted autoPlay loop>
                   <source
-                    src={URL.createObjectURL(
-                      new Blob([videoData], { type: "video/mp4" })
-                    )}
+                    src={URL.createObjectURL(videoBlob)}
                     type="video/mp4"
                   />
                   <strong>Your browser does not support the video tag.</strong>
                 </Video>
               ) : (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5 }}
-                  style={{ width: "175px", height: "175px" }}
-                >
-                  <RiErrorWarningLine size="150" color="white" />
-                </motion.div>
+                // <motion.div
+                //   initial={{ opacity: 0 }}
+                //   animate={{ opacity: 1 }}
+                //   transition={{ duration: 0.5 }}
+                //   style={{ width: "175px", height: "175px" }}
+                // >
+                //   <RiErrorWarningLine size="150" color="white" />
+                // </motion.div>
+                <Video muted autoPlay loop>
+                  <source
+                    src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                    type="video/mp4"
+                  />
+                  <strong>Your browser does not support the video tag.</strong>
+                </Video>
               )}
-
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
-                ea neque quidem exercitationem possimus.
-              </p>
+              {currentCarsPerMin.length > 0 && (
+                <Count>
+                  <p>Cars/min: {currentCarsPerMin[carsPerMinIndex]}</p>
+                </Count>
+              )}
             </div>
           </Card>
         )}
       </AnimatePresence>
-      {renderBoxes()}
+      {bridges.map((bridge, index) => (
+        <Box
+          key={index}
+          className="box"
+          variants={boxVariants}
+          initial="initial"
+          animate="animate"
+          onClick={() => handleBoxClick(bridge.name)}
+        >
+          {bridge.name}
+        </Box>
+      ))}
     </Wrapper>
   );
 };

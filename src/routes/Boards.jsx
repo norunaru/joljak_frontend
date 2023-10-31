@@ -124,6 +124,7 @@ const ListItem = styled(motion.li)`
 
 const NewPost = styled.div`
   padding: 20px;
+  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -194,6 +195,7 @@ const Boards = () => {
       <NavBar>
         <GoBackLink to="/home">home</GoBackLink>
         <h3>Boards</h3>
+        <NameChecker />
         <LogOutBtn>Log out</LogOutBtn>
       </NavBar>
       <Container>
@@ -221,7 +223,6 @@ const Boards = () => {
           <Link to="/create-board">게시물 작성</Link>
         </NewPost>
       </Container>
-      <NameChecker />
     </Page>
   );
 };

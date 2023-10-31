@@ -5,10 +5,14 @@ import { isLoggedInState, userNicknameAtom } from "../atoms";
 
 const Name = styled.div`
   position: absolute;
+  padding: 10px 20px;
+  right: 130px;
+  display: block;
+  top: 15px;
   span {
+    font-size: 26px;
     color: white;
   }
-  bottom: 0px;
   h4 {
     color: white;
     font-size: 30px;
@@ -22,13 +26,15 @@ const NameChecker = () => {
   return (
     <div>
       <div>
-        <span>recoil name </span>
-        <Name>{recoilName}</Name>
+        {/* <span>recoil name </span> */}
+        <Name>
+          <span>{recoilName}</span>
+        </Name>
       </div>
-      <div>
+      {/* <div>
         <span>local name </span>
         <Name>{localName}</Name>
-      </div>
+      </div> */}
     </div>
   );
 };

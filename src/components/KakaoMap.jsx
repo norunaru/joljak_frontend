@@ -14,6 +14,11 @@ const KakaoMap = () => {
     // 한강에 있는 다리들의 좌표 정보
     const bridges = [
       {
+        name: "일산대교",
+        latitude: 37.65053776328475,
+        longitude: 126.7160719615825,
+      },
+      {
         name: "강동대교",
         latitude: 37.577969734978204,
         longitude: 127.16102620559593,
@@ -88,25 +93,21 @@ const KakaoMap = () => {
         latitude: 37.55575121781325,
         longitude: 126.88528703747562,
       },
-      {
-        name: "가양대교",
-        latitude: 37.57079019264399,
-        longitude: 126.86135687529027,
-      },
+
       {
         name: "방화대교",
         latitude: 37.588619870869124,
         longitude: 126.82654156405273,
       },
       {
-        name: "노량대교",
+        name: "한강대교",
         latitude: 37.517669455903565,
         longitude: 126.95891616761445,
       },
       {
-        name: "영동대교",
-        latitude: 37.52941202925295,
-        longitude: 127.05677064443944,
+        name: "행주대교",
+        latitude: 37.598509270504745,
+        longitude: 126.8096687340931,
       },
       {
         name: "양화대교",

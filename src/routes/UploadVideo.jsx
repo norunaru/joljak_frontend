@@ -3,8 +3,7 @@ import axios from "axios";
 
 const UploadVideo = () => {
   const [title, setTitle] = useState("");
-  const [file, setFile] = useState(null);
-  const [error, setError] = useState(null);
+  const [file, setFile] = useState("");
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -17,22 +16,25 @@ const UploadVideo = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    if (!file) {
-      setError("Please choose a video to upload.");
-      return;
-    }
-
     const formData = new FormData();
     formData.append("title", title);
     formData.append("file", file);
 
     try {
-      await axios.post("http://localhost:4000/api/videos/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      alert("Video uploaded successfully");
+      const response = await axios.post(
+        "http://localhost:4000/api/videos/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (response.status === 200) {
+        alert("Video uploaded successfully");
+      } else {
+        alert("Failed to upload the video");
+      }
     } catch (error) {
       alert("Failed to upload the video");
     }
@@ -60,7 +62,6 @@ const UploadVideo = () => {
             onChange={handleFileChange}
           />
         </div>
-        {error && <p style={{ color: "red" }}>{error}</p>}
         <button type="submit">Upload</button>
       </form>
     </div>

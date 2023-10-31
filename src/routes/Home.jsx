@@ -167,30 +167,19 @@ function Home() {
         <GoBackLink to="/boards">게시판</GoBackLink>
 
         <h3>Seoul Map</h3>
+        <NameChecker />
+
         <LogOutBtn onClick={handleLogOut}>Log out</LogOutBtn>
       </NavBar>
       <Container>
         <Box1>
           <h4>Bridges</h4>
-          {/* <Label onClick={handleFileSelect}>
-            <IconWrapper>
-              <FaMusic />
-            </IconWrapper>
-            {selectedFile ? selectedFile : "Select Source File"}
-          </Label>
-          <InputFile
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-          /> */}
           <KakaoMap />
         </Box1>
         <Box2>
-          {/* <h4>Output</h4> */}
           <BoxGrid />
         </Box2>
       </Container>
-      <NameChecker />
     </Page>
   );
 }
