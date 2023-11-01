@@ -5,24 +5,10 @@ const KakaoMap = () => {
   const [carsPerMinArray, setCarsPerMinArray] = useState(Array(20).fill(0));
   const [carsPerMinIndex, setCarsPerMinIndex] = useState(0);
   const MeanArray = [
-    60, 86, 69, 30, 44, 54, 70, 70, 90, 72, 11, 19, 72, 92, 36, 66, 45, 36, 43,
+    69, 60, 30, 44, 54, 70, 70, 90, 72, 11, 19, 72, 92, 36, 86, 66, 45, 36, 43,
     30,
   ];
   const bridges = [
-    {
-      name: "일산대교",
-      latitude: 37.65053776328475,
-      longitude: 126.7160719615825,
-      cars_per_min: [51, 64, 74, 59, 60, 49, 58, 69],
-      mean: 60,
-    },
-    {
-      name: "행주대교",
-      latitude: 37.598509270504745,
-      longitude: 126.8096687340931,
-      cars_per_min: [36, 147, 109, 62, 90, 123, 39],
-      mean: 86,
-    },
     {
       name: "방화대교",
       latitude: 37.588619870869124,
@@ -30,7 +16,13 @@ const KakaoMap = () => {
       cars_per_min: [69, 75, 47, 46, 118, 61, 68, 68],
       mean: 69,
     },
-
+    {
+      name: "일산대교",
+      latitude: 37.65053776328475,
+      longitude: 126.7160719615825,
+      cars_per_min: [51, 64, 74, 59, 60, 49, 58, 69],
+      mean: 60,
+    },
     {
       name: "월드컵대교",
       latitude: 37.55575121781325,
@@ -127,6 +119,13 @@ const KakaoMap = () => {
     },
 
     {
+      name: "행주대교",
+      latitude: 37.598509270504745,
+      longitude: 126.8096687340931,
+      cars_per_min: [36, 147, 109, 62, 90, 123, 39],
+      mean: 86,
+    },
+    {
       name: "청담대교",
       latitude: 37.52501169648615,
       longitude: 127.06353232534644,
@@ -190,14 +189,9 @@ const KakaoMap = () => {
       const imageSize = new kakao.maps.Size(40, 40);
       const imageOption = { offset: new kakao.maps.Point(20, 40) };
 
-      const redMarkerImage = new kakao.maps.MarkerImage(
-        process.env.PUBLIC_URL + "/Img/red.png",
-        imageSize,
-        imageOption
-      );
-
-      const blueMarkerImage = new kakao.maps.MarkerImage(
-        process.env.PUBLIC_URL + "/Img/blue.png",
+      const imageSrc = process.env.PUBLIC_URL + "/Img/red.png";
+      const markerImage = new kakao.maps.MarkerImage(
+        imageSrc,
         imageSize,
         imageOption
       );
@@ -206,7 +200,7 @@ const KakaoMap = () => {
         position: markerPosition,
         map: map,
         title: bridge.name,
-        image: redMarkerImage, // 기본적으로 빨간색 마커로 설정
+        image: markerImage,
       });
 
       const infowindow = new kakao.maps.InfoWindow({
@@ -221,35 +215,57 @@ const KakaoMap = () => {
         infowindow.close();
       });
 
-      return { marker, bridge, redMarkerImage, blueMarkerImage };
+      return { marker, bridge };
     });
 
+    const redMarkerImage = new kakao.maps.MarkerImage(
+      process.env.PUBLIC_URL + "/Img/red.png",
+      new kakao.maps.Size(40, 40),
+      { offset: new kakao.maps.Point(20, 40) }
+    );
+
+    const blueMarkerImage = new kakao.maps.MarkerImage(
+      process.env.PUBLIC_URL + "/Img/blue.png",
+      new kakao.maps.Size(40, 40),
+      { offset: new kakao.maps.Point(20, 40) }
+    );
+
     const updateMarkers = () => {
-      bridgeMarkers.forEach(
-        ({ marker, bridge, redMarkerImage, blueMarkerImage }) => {
-          const bridgeMean = bridge.mean;
-          const carsPerMin = bridge.cars_per_min[carsPerMinIndex];
+      bridgeMarkers.forEach(({ marker, bridge }) => {
+        const bridgeMean = bridge.mean;
+        const carsPerMin = bridge.cars_per_min[carsPerMinIndex];
 
-          const newMarkerImage =
-            carsPerMin !== undefined && carsPerMin > bridgeMean
-              ? redMarkerImage
-              : blueMarkerImage;
+        const newMarkerImage =
+          carsPerMin !== undefined && carsPerMin > bridgeMean
+            ? redMarkerImage
+            : blueMarkerImage;
 
-          marker.setImage(newMarkerImage);
-        }
-      );
+        marker.setImage(newMarkerImage);
+      });
     };
 
     updateMarkers();
 
-    const interval = setInterval(() => {
-      setCarsPerMinIndex((prevIndex) => (prevIndex + 1) % 8);
-      updateMarkers();
-    }, 5000); //60000으로 하면 1분마다
+    const carsPerMinData = bridges.map((bridge) => bridge.cars_per_min);
+    setCarsPerMinArray(carsPerMinData);
 
-    return () => {
-      clearInterval(interval);
-    };
+    const interval = setInterval(() => {
+      const nextIndex = (carsPerMinIndex + 1) % carsPerMinArray.length;
+      setCarsPerMinIndex(
+        (prevIndex) => (prevIndex + 1) % carsPerMinData.length
+      );
+      console.log("carsPerMinArray:", carsPerMinArray);
+    }, 60000); // 1000밀리초(1초)마다 업데이트
+
+    ///=======================================================================================================================================
+
+    kakao.maps.event.addListener(map, "click", function (mouseEvent) {
+      const latlng = mouseEvent.latLng;
+      const latitude = latlng.getLat();
+      const longitude = latlng.getLng();
+      console.log("Latitude:", latitude);
+      console.log("Longitude:", longitude);
+    });
   }, [carsPerMinIndex]);
 
   return (

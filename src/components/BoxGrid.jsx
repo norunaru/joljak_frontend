@@ -151,97 +151,96 @@ const BoxGrid = () => {
   const [currentCarsPerMin, setCurrentCarsPerMin] = useState([]);
   const [carsPerMinIndex, setCarsPerMinIndex] = useState(0);
 
-  //일산 행주 한강 추가해야됨
-  //가양 노량 영동 →일산 행주 한강
-  //가양 -> 일산
-  //노량 ==한강
-  //영동 -> 행주
+  const [countArray, setCountArray] = useState([]);
+
   const bridges = [
     {
       id: 1,
-      name: "방화대교",
-      cars_per_min: [69, 75, 47, 46, 118, 61, 68, 68],
-      mean: 69,
-    },
-    {
-      id: 2,
       name: "일산대교",
       cars_per_min: [51, 64, 74, 59, 60, 49, 58, 69],
       mean: 60,
     },
-    { id: 3, name: "월드컵대교", cars_per_min: [] },
     {
-      id: 4,
+      id: 2,
+      name: "행주대교",
+      cars_per_min: [36, 147, 109, 62, 90, 123, 39],
+      mean: 86,
+    },
+    {
+      id: 3,
+      name: "방화대교",
+      cars_per_min: [69, 75, 47, 46, 118, 61, 68, 68],
+      mean: 69,
+    },
+
+    { id: 4, name: "월드컵대교", cars_per_min: [], mean: 30 },
+    {
+      id: 5,
       name: "성산대교",
       cars_per_min: [51, 38, 38, 51, 38, 70, 24, 43],
       mean: 44,
     },
     {
-      id: 5,
+      id: 6,
       name: "양화대교",
       cars_per_min: [35, 107, 63, 68, 39, 46, 49, 29],
       mean: 54,
     },
     {
-      id: 6,
+      id: 7,
       name: "서강대교",
       cars_per_min: [72, 56, 27, 106, 94, 107, 78, 22],
       mean: 70,
     },
     {
-      id: 7,
+      id: 8,
       name: "마포대교",
       cars_per_min: [19, 95, 35, 37, 184, 10, 92, 94],
       mean: 70,
     },
     {
-      id: 8,
+      id: 9,
       name: "원효대교",
       cars_per_min: [35, 112, 41, 117, 150, 67, 126, 74],
       mean: 90,
     },
     {
-      id: 9,
+      id: 10,
       name: "한강대교",
       cars_per_min: [55, 90, 103, 59, 23, 164, 51, 34],
       mean: 72,
     },
     {
-      id: 10,
+      id: 11,
       name: "동작대교",
       cars_per_min: [4, 16, 2, 22, 1, 24, 5, 15],
       mean: 11,
     },
     {
-      id: 11,
+      id: 12,
       name: "반포대교",
       cars_per_min: [29, 24, 16, 13, 22, 15, 11, 26],
       mean: 19,
     },
     {
-      id: 12,
+      id: 13,
       name: "한남대교",
       cars_per_min: [82, 76, 65, 74, 68, 74, 69, 70],
       mean: 72,
     },
     {
-      id: 13,
+      id: 14,
       name: "동호대교",
       cars_per_min: [64, 74, 85, 97, 111, 131, 100],
       mean: 92,
     },
     {
-      id: 14,
+      id: 15,
       name: "성수대교",
       cars_per_min: [18, 68, 10, 50, 60, 8, 67, 11],
       mean: 36,
     },
-    {
-      id: 15,
-      name: "행주대교",
-      cars_per_min: [36, 147, 109, 62, 90, 123, 39],
-      mean: 86,
-    },
+
     {
       id: 16,
       name: "청담대교",
@@ -266,21 +265,47 @@ const BoxGrid = () => {
       cars_per_min: [57, 46, 28, 41, 50, 35, 59],
       mean: 43,
     },
-    { id: 20, name: "강동대교", cars_per_min: [] },
+    { id: 20, name: "강동대교", cars_per_min: [], mean: 30 },
   ];
+
+  useEffect(() => {
+    const generateCountArray = () => {
+      const newCountArray = bridges.map((bridge) => {
+        const currentArray = bridge.cars_per_min;
+        return currentArray[carsPerMinIndex % 8]; // 8로 변경: 데이터 배열의 길이가 8임
+      });
+      setCountArray(newCountArray);
+    };
+
+    generateCountArray();
+
+    const interval = setInterval(() => {
+      setCarsPerMinIndex((prevIndex) => {
+        if (prevIndex >= 7) {
+          return 0; // 7 이상이면 0으로 설정
+        } else {
+          return prevIndex + 1; // 7보다 작으면 1씩 증가
+        }
+      });
+      generateCountArray(); // 값 변경 시 업데이트
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [carsPerMinIndex, bridges]); // bridges를 의존성 배열에 추가
 
   //서버에 영상 요청
   useEffect(() => {
     if (selectedBox) {
       axios
         .get(`http://localhost:4000/api/videos/${videoId}/stream`, {
-          responseType: "blob", // 추가: Blob 데이터 요청
+          responseType: "blob", // Blob 데이터 요청
         })
         .then((response) => {
           setVideoBlob(response.data); // Blob 데이터를 상태에 저장
         })
         .catch((error) => {
           console.error("영상을 가져오기 실패.", error);
+          setVideoBlob(null); // 영상을 가져오지 못하면 Blob 데이터 초기화
         });
     }
   }, [selectedBox]);
@@ -296,12 +321,11 @@ const BoxGrid = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (carsPerMinIndex >= 7) {
-        setCarsPerMinIndex(0);
+        setCarsPerMinIndex(0); // 7 이상이면 0으로 설정
       } else {
-        setCarsPerMinIndex(carsPerMinIndex + 1);
+        setCarsPerMinIndex(carsPerMinIndex + 1); // 아닌 경우 1씩 증가
       }
     }, 5000);
-    //60000으로 하면 1분마다
 
     return () => clearInterval(interval);
   }, [carsPerMinIndex]);
@@ -346,7 +370,6 @@ const BoxGrid = () => {
                   <strong>Your browser does not support the video tag.</strong>
                 </Video>
               ) : (
-                // 이게 진짜코드
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -355,15 +378,6 @@ const BoxGrid = () => {
                 >
                   <RiErrorWarningLine size="150" color="white" />
                 </motion.div>
-
-                //아래 Video는 더미코드
-                // <Video muted autoPlay loop>
-                //   <source
-                //     src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                //     type="video/mp4"
-                //   />
-                //   <strong>Your browser does not support the video tag.</strong>
-                // </Video>
               )}
               {currentCarsPerMin.length > 0 && (
                 <Count>
@@ -381,7 +395,7 @@ const BoxGrid = () => {
           variants={boxVariants}
           initial="initial"
           animate="animate"
-          onClick={() => handleBoxClick(bridge.name)}
+          onClick={() => handleBoxClick(bridge.name, bridge.id)} // bridge.id 추가
         >
           {bridge.name}
         </Box>
