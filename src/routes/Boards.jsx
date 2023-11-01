@@ -9,6 +9,7 @@ import GoBackLink from "../components/GoBackLink";
 import LogOutBtn from "../components/LogOutBtn";
 import NameChecker from "../components/NameChecker";
 import axios from "axios";
+import BurgerMenu from "../components/BurgerMenu";
 
 const Page = styled.div`
   height: 100vh;
@@ -28,6 +29,12 @@ const Page = styled.div`
     radial-gradient(35% 56% at 91% 74%, #0e0c55f5 9%, #073aff00 100%),
     radial-gradient(74% 86% at 67% 38%, #000000f5 24%, #073aff00 100%),
     linear-gradient(181deg, #085877ff 1%, #4c00fcff 100%);
+`;
+
+const BurgerMenuContainer = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 10px;
 `;
 
 const NavBar = styled.nav`
@@ -193,7 +200,10 @@ const Boards = () => {
   return (
     <Page>
       <NavBar>
-        <GoBackLink to="/home">home</GoBackLink>
+        <BurgerMenuContainer>
+          <BurgerMenu />
+        </BurgerMenuContainer>
+        {/* <GoBackLink to="/home">home</GoBackLink> */}
         <h3>공지사항</h3>
         <NameChecker />
         <LogOutBtn>Log out</LogOutBtn>

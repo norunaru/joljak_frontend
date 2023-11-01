@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-
+import { Link } from "react-router-dom";
+import GoBackLink from "./GoBackLink";
 const MenuToggle = styled.div`
   position: absolute;
   top: 10px; /* 좌측 상단에 위치하도록 수정 */
@@ -8,14 +9,20 @@ const MenuToggle = styled.div`
   z-index: 1;
   user-select: none;
 `;
-
 const MenuLink = styled.a`
   text-decoration: none;
   color: #232323;
   transition: color 0.3s ease;
 
   &:hover {
-    color: tomato;
+    color: orangered;
+  }
+  a {
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: orangered;
+    }
   }
 `;
 
@@ -37,7 +44,8 @@ const MenuSpan = styled.span`
   height: 4px;
   margin-bottom: 5px;
   position: relative;
-  background: #cdcdcd;
+
+  background: ${(props) => props.theme.accentColor};
   border-radius: 3px;
   transform-origin: ${(props) =>
     props.firstChild ? "0% 0%" : props.lastChild ? "0% 100%" : "4px 0px"};
@@ -50,7 +58,9 @@ const Menu = styled.ul`
   position: absolute;
   width: 300px;
   margin: -100px 0 0 -50px;
+  height: 100vh;
   padding: 50px;
+  padding-bottom: 3000px;
   padding-top: 125px;
   background: #ededed;
   list-style-type: none;
@@ -62,7 +72,7 @@ const Menu = styled.ul`
 
 const MenuItem = styled.li`
   padding: 10px 0;
-  font-size: 22px;
+  font-size: 26px;
 `;
 
 const BurgerMenu = () => {
@@ -79,20 +89,26 @@ const BurgerMenu = () => {
       <MenuSpan></MenuSpan>
       <MenuSpan lastChild={true}></MenuSpan>
       <Menu isOpen={isOpen}>
-        <MenuLink href="#">
-          <MenuItem>Home</MenuItem>
+        <MenuLink>
+          <MenuItem>
+            <Link to="/home">Home</Link>
+          </MenuItem>
         </MenuLink>
-        <MenuLink href="#">
-          <MenuItem>About</MenuItem>
+
+        <MenuLink>
+          <MenuItem>
+            <Link to="/boards">Boards</Link>
+          </MenuItem>
         </MenuLink>
-        <MenuLink href="#">
-          <MenuItem>Info</MenuItem>
+
+        <MenuLink href="https://github.com/poramfe" target="_blank">
+          <MenuItem>GitHub</MenuItem>
         </MenuLink>
-        <MenuLink href="#">
-          <MenuItem>Contact</MenuItem>
-        </MenuLink>
-        <MenuLink href="https://erikterwan.com/" target="_blank">
-          <MenuItem>Show me more</MenuItem>
+
+        <MenuLink>
+          <MenuItem>
+            <Link to="/">Intro</Link>
+          </MenuItem>
         </MenuLink>
       </Menu>
     </MenuToggle>

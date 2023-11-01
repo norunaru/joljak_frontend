@@ -9,6 +9,13 @@ import { useNavigate } from "react-router-dom";
 import LogOutBtn from "../components/LogOutBtn";
 import GoBackLink from "../components/GoBackLink";
 import NameChecker from "../components/NameChecker";
+import BurgerMenu from "../components/BurgerMenu";
+
+const BurgerMenuContainer = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+`;
 
 const Page = styled.div`
   height: 100vh;
@@ -164,7 +171,10 @@ function Home() {
   return (
     <Page>
       <NavBar>
-        <GoBackLink to="/boards">게시판</GoBackLink>
+        <BurgerMenuContainer>
+          <BurgerMenu />
+        </BurgerMenuContainer>
+        {/* <GoBackLink to="/boards">게시판</GoBackLink> */}
 
         <h3>Seoul Map</h3>
         <NameChecker />

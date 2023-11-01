@@ -3,7 +3,6 @@ import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
 import { RiCloseCircleLine, RiErrorWarningLine } from "react-icons/ri";
-
 const Wrapper = styled.div`
   margin-left: 30px;
   display: flex;
