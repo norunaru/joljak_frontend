@@ -52,7 +52,8 @@ const Title = styled.h2`
 
 const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: end;
+
+  justify-content: space-between;
 `;
 
 const Label = styled.label`
@@ -128,9 +129,21 @@ const CustomFileInput = styled.label`
 
 const GoBackLink = styled(Link)`
   text-decoration: none;
-  color: #4a05d2;
+  background-color: #3300ff;
+  display: flex;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
   font-size: 16px;
-  margin-top: 10px;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: #0056b3;
+  }
 `;
 
 const CreateNoticePage = () => {
@@ -228,10 +241,10 @@ const CreateNoticePage = () => {
             </div>
           </CustomFileInput>
           <ButtonWrapper>
+            <GoBackLink to="/notice">돌아가기</GoBackLink>
             <Button type="submit">작성 완료</Button>
           </ButtonWrapper>
         </form>
-        {/* <GoBackLink to="/boards">돌아가기</GoBackLink> */}
       </FormContainer>
     </PageContainer>
   );

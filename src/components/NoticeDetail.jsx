@@ -232,7 +232,7 @@ const NoticeDetail = () => {
             </ContentBox>
           </div>
           <LinkBox>
-            <GoBackLink to="/boards">돌아가기</GoBackLink>
+            <GoBackLink to="/notice">돌아가기</GoBackLink>
 
             <UpdateButton
               onClick={

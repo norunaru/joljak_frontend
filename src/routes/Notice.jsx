@@ -191,7 +191,7 @@ const Notice = () => {
           <List>
             {boardList.map((board) => (
               <ListItem key={board.id}>
-                <Link to={`/boards/${board.id}`}>
+                <Link to={`/notice/${board.id}`}>
                   {board.title} <span>{board.writer}</span>
                 </Link>
               </ListItem>
