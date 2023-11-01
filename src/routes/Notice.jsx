@@ -91,7 +91,7 @@ const ListContainer = styled.div`
   width: 80vw;
   height: 90vh;
   background-color: transparent;
-  border: 2px solid ${(props) => props.theme.accentColor};
+  border: 2px solid cornflowerblue;
   border-radius: 20px;
   border-radius: 10px;
   padding: 20px;
@@ -142,7 +142,7 @@ const NewPost = styled.div`
   }
 `;
 
-const Boards = () => {
+const Notice = () => {
   const [boardList, setBoardList] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
   const [userNickname, setUserNickname] = useRecoilState(userNicknameAtom);
@@ -158,11 +158,11 @@ const Boards = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/board-list"
+          "http://localhost:4000/api/notice-list"
         );
         setBoardList(response.data.data); // 수정: response.data.data를 사용하여 게시물 데이터를 가져옵니다.
       } catch (error) {
-        console.error("게시물 목록을 불러오는 중 오류 발생: ", error);
+        console.error("공지사항 목록을 불러오는 중 오류 발생: ", error);
       }
     };
 
@@ -174,7 +174,7 @@ const Boards = () => {
         <BurgerMenuContainer>
           <BurgerMenu />
         </BurgerMenuContainer>
-        <h3>자유게시판</h3>
+        <h3>공지사항</h3>
         <NameChecker />
         <LogOutBtn>Log out</LogOutBtn>
       </NavBar>
@@ -200,11 +200,11 @@ const Boards = () => {
         </ListContainer>
 
         <NewPost>
-          <Link to="/create-board">게시물 작성</Link>
+          <Link to="/create-notice">공지 작성</Link>
         </NewPost>
       </Container>
     </Page>
   );
 };
 
-export default Boards;
+export default Notice;

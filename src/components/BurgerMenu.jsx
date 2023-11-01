@@ -97,6 +97,12 @@ const BurgerMenu = () => {
 
         <MenuLink>
           <MenuItem>
+            <Link to="/notice">Notice</Link>
+          </MenuItem>
+        </MenuLink>
+
+        <MenuLink>
+          <MenuItem>
             <Link to="/boards">Boards</Link>
           </MenuItem>
         </MenuLink>

@@ -155,7 +155,7 @@ const Writer = styled.h1`
   top: 0;
 `;
 
-const BoardDetail = () => {
+const NoticeDetail = () => {
   // useParams 훅을 사용하여 URL 파라미터를 읽어옵니다.
   const { boardId } = useParams();
   const userNickname = useRecoilValue(userNicknameAtom);
@@ -166,11 +166,11 @@ const BoardDetail = () => {
     const fetchBoardDetail = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/board-detail/${boardId}`
+          `http://localhost:4000/api/notice-detail/${boardId}`
         );
         setBoard(response.data.data);
       } catch (error) {
-        console.error("게시물 상세 정보를 불러오는 중 오류 발생: ", error);
+        console.error("공지사항 상세 정보를 불러오는 중 오류 발생: ", error);
       }
     };
 
@@ -183,7 +183,7 @@ const BoardDetail = () => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/delete-board", {
+      const response = await fetch("http://localhost:4000/api/delete-notice", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -192,7 +192,7 @@ const BoardDetail = () => {
       });
       console.log(response);
       if (response.ok) {
-        navigate("/boards");
+        navigate("/notice");
       } else {
         const data = await response.json();
 
@@ -205,7 +205,7 @@ const BoardDetail = () => {
     }
   };
   const handleUpdate = () => {
-    navigate(`/update-board/${boardId}`); // 수정 페이지로 이동
+    navigate(`/update-notice/${boardId}`); // 수정 페이지로 이동
   };
 
   return (
@@ -240,13 +240,6 @@ const BoardDetail = () => {
                   ? handleUpdate
                   : () => alert("작성자가 아닙니다.")
               }
-
-              // dummy
-              // onClick={
-              //   userNickname == board.writer
-              //     ? handleUpdate
-              //     : () => alert("작성자가 아닙니다.")
-              // }
             >
               <Icon>
                 <RiToolsFill />
@@ -271,4 +264,4 @@ const BoardDetail = () => {
   );
 };
 
-export default BoardDetail;
+export default NoticeDetail;

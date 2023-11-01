@@ -133,7 +133,7 @@ const GoBackLink = styled(Link)`
   margin-top: 10px;
 `;
 
-const CreateBoardPage = () => {
+const CreateNoticePage = () => {
   const navigate = useNavigate();
   const getUserNickname = useRecoilValue(userNicknameAtom);
   const setUserNickname = useSetRecoilState(userNicknameAtom);
@@ -174,7 +174,7 @@ const CreateBoardPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/create-board",
+        "http://localhost:4000/api/create-notice",
         {
           title,
           content,
@@ -184,7 +184,7 @@ const CreateBoardPage = () => {
 
       if (response.status === 201) {
         alert("게시물이 작성되었습니다.");
-        navigate("/boards");
+        navigate("/notice");
       } else {
         alert("게시물 작성에 실패했습니다.");
       }
@@ -197,7 +197,7 @@ const CreateBoardPage = () => {
   return (
     <PageContainer>
       <FormContainer>
-        <Title>게시물 작성</Title>
+        <Title>공지사항 작성</Title>
         <form onSubmit={handleSubmit}>
           <Label htmlFor="title">제목</Label>
           <Input
@@ -237,4 +237,4 @@ const CreateBoardPage = () => {
   );
 };
 
-export default CreateBoardPage;
+export default CreateNoticePage;

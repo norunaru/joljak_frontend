@@ -245,7 +245,7 @@ const KakaoMap = () => {
     const interval = setInterval(() => {
       setCarsPerMinIndex((prevIndex) => (prevIndex + 1) % 8);
       updateMarkers();
-    }, 5000); //60000으로 하면 1분마다
+    }, 60000);
 
     return () => {
       clearInterval(interval);

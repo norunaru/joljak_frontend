@@ -281,16 +281,16 @@ const BoxGrid = () => {
     const interval = setInterval(() => {
       setCarsPerMinIndex((prevIndex) => {
         if (prevIndex >= 7) {
-          return 0; // 7 이상이면 0으로 설정
+          return 0;
         } else {
-          return prevIndex + 1; // 7보다 작으면 1씩 증가
+          return prevIndex + 1;
         }
       });
-      generateCountArray(); // 값 변경 시 업데이트
-    }, 5000);
+      generateCountArray();
+    }, 60000);
 
     return () => clearInterval(interval);
-  }, [carsPerMinIndex, bridges]); // bridges를 의존성 배열에 추가
+  }, [carsPerMinIndex, bridges]);
 
   //서버에 영상 요청
   useEffect(() => {
@@ -320,11 +320,11 @@ const BoxGrid = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (carsPerMinIndex >= 7) {
-        setCarsPerMinIndex(0); // 7 이상이면 0으로 설정
+        setCarsPerMinIndex(0);
       } else {
-        setCarsPerMinIndex(carsPerMinIndex + 1); // 아닌 경우 1씩 증가
+        setCarsPerMinIndex(carsPerMinIndex + 1);
       }
-    }, 5000);
+    }, 60000);
 
     return () => clearInterval(interval);
   }, [carsPerMinIndex]);
